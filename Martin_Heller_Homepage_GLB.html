@@ -200,12 +200,43 @@ section.content {
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 28px;
+  position: relative;
+  overflow: hidden;
   transition: border-color .2s, transform .2s;
 }
 
 .project:hover {
   border-color: #557b83;
   transform: translateY(-3px);
+}
+
+/* Hover image: set per card with style="--bg-image: url('images/xyz.jpg')" */
+
+.project::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg-image, none) center / cover no-repeat;
+  opacity: 0;
+  transition: opacity .3s;
+  z-index: 0;
+}
+
+.project > * {
+  position: relative;
+  z-index: 1;
+}
+
+.project p {
+  transition: opacity .3s;
+}
+
+.project[style*="--bg-image"]:hover::before {
+  opacity: 1;
+}
+
+.project[style*="--bg-image"]:hover p {
+  opacity: 0;
 }
 
 .project .number {
@@ -484,7 +515,7 @@ footer {
 
         <div class="cards">
 
-          <article class="project">
+          <article class="project" style="--bg-image: url('images/test.PNG')">
             <div class="number">PROFESSIONAL / 01</div>
             <h3>DCC Pipeline Integrations</h3>
             <p>
