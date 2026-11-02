@@ -1,0 +1,793 @@
+
+<!doctype html>
+<html lang="en">
+
+<style>
+:root {
+  --bg: #0a1016;
+  --panel: #111c26;
+  --line: #263541;
+  --text: #eaf3f6;
+  --muted: #9db0bb;
+  --accent: #75e5d1;
+  --accent2: #a0bfff;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg) !important;
+  color: var(--text);
+  font: 16px/1.65 system-ui, sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.shell {
+  max-width: 1160px;
+  margin: auto;
+  padding: 0 28px;
+}
+
+/* NAVIGATION */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #0a1016ee;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+}
+
+.nav {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+nav { display: flex; gap: 28px; }
+
+nav a {
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+nav a:hover { color: var(--accent); }
+
+/* TYPOGRAPHY */
+
+.eyebrow {
+  font: 700 .72rem/1.4 ui-monospace, monospace;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* HERO */
+
+.hero {
+  padding: 112px 0 104px;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 6.1vw, 5.6rem);
+  line-height: 1.05;
+  letter-spacing: -.065em;
+  margin: 22px 0 28px;
+}
+
+.hero h1 span { color: var(--accent); }
+
+.lead {
+  font-size: 1.13rem;
+  max-width: 610px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 22px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: .91rem;
+  transition: .2s;
+}
+
+.button.primary {
+  background: var(--accent);
+  color: #0b1a1d;
+  border-color: var(--accent);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+  color: var(--muted);
+  font: .77rem ui-monospace, monospace;
+}
+
+.hero-meta span {
+  border-left: 2px solid var(--accent);
+  padding-left: 10px;
+}
+
+/* HERO 3D MODEL */
+
+.hero-model {
+  display: block;
+  width: 100%;
+  height: 440px;
+  background: transparent;
+}
+
+/* SECTIONS */
+
+section.content {
+  padding: 92px 0;
+  border-top: 1px solid var(--line);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 30px;
+  margin-bottom: 34px;
+}
+
+.section-head h2 {
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.15;
+  letter-spacing: -.05em;
+  margin: 12px 0 0;
+}
+
+.section-note {
+  max-width: 340px;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+/* PROJECT CARDS */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.project {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 28px;
+  transition: border-color .2s, transform .2s;
+}
+
+.project:hover {
+  border-color: #557b83;
+  transform: translateY(-3px);
+}
+
+.project .number {
+  color: var(--accent);
+  font: .76rem ui-monospace, monospace;
+}
+
+.project h3 {
+  font-size: 1.38rem;
+  letter-spacing: -.025em;
+  margin: 18px 0 10px;
+}
+
+.project p {
+  color: var(--muted);
+  margin: 0 0 22px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  font: .73rem ui-monospace, monospace;
+  color: #c5d6df;
+  border: 1px solid #37505b;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+
+.project.personal { background: #101820; }
+.project.personal .number { color: var(--accent2); }
+
+/* SKILLS */
+
+.skills {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.skill {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.skill h3 {
+  font-size: 1.05rem;
+  margin: 0 0 12px;
+}
+
+.skill p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .93rem;
+}
+
+/* EXPERIENCE */
+
+.experience {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 44px;
+}
+
+.experience .period {
+  font: .86rem ui-monospace, monospace;
+  color: var(--accent);
+}
+
+.experience h3 {
+  font-size: 1.65rem;
+  margin: 0;
+}
+
+.experience .place {
+  color: var(--muted);
+  margin: 3px 0 18px;
+}
+
+.experience ul {
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.experience li { margin: 8px 0; }
+
+.education {
+  margin-top: 32px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+}
+
+.education h4 { margin: 0 0 6px; }
+.education p { margin: 0; color: var(--muted); }
+
+/* CONTACT */
+
+.contact {
+  padding: 90px 0 110px;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  letter-spacing: -.05em;
+  line-height: 1.1;
+  margin: 14px 0;
+}
+
+.contact p {
+  max-width: 580px;
+  margin: 20px auto 30px;
+  color: var(--muted);
+}
+
+.contact .actions { justify-content: center; }
+
+/* FOOTER */
+
+footer {
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font: .8rem ui-monospace, monospace;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 38px;
+    padding-top: 76px;
+  }
+
+  .skills { grid-template-columns: repeat(2, 1fr); }
+  .experience { grid-template-columns: 1fr; gap: 12px; }
+}
+
+@media (max-width: 600px) {
+  .shell { padding: 0 20px; }
+
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 0;
+    gap: 7px;
+  }
+
+  nav { gap: 18px; flex-wrap: wrap; }
+
+  .hero { padding: 64px 0; }
+  .cards, .skills { grid-template-columns: 1fr; }
+
+  .section-head { display: block; }
+  .section-note { margin-top: 16px; }
+
+  section.content { padding: 64px 0; }
+  .contact { padding: 70px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+</style>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Martin Heller | Graphics & Pipeline Engineer</title>
+
+  <meta name="description"
+    content="Martin Heller — Graphics & Pipeline Engineer
+    specializing in 3D automation, DCC integrations,
+    and graphics software.">
+
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.4.0/model-viewer.min.js"></script>
+
+  <!-- The downloaded HTML file contains all CSS here. -->
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="#top">Martin Heller</a>
+
+      <nav aria-label="Main navigation">
+        <a href="#work">Work</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <div class="shell hero">
+      <div>
+        <div class="eyebrow">
+          Graphics Programming / Pipeline Engineering
+        </div>
+
+        <h1>
+          Building better<br>
+          <span>3D workflows</span>
+        </h1>
+
+        <p class="lead">
+          I'm Martin Heller, a software engineer specializing
+          in graphics-related tools, 3D data processing,
+          and pipeline automation.
+
+          I build solutions that connect content creation
+          tools with reliable, real-time-ready workflows.
+        </p>
+
+        <div class="actions">
+          <a class="button primary" href="#work">
+            Explore my work ↗
+          </a>
+
+          <a class="button" href="#contact">
+            Get in touch →
+          </a>
+        </div>
+
+        <div class="hero-meta">
+          <span>4+ years of experience</span>
+          <span>Python & C++</span>
+          <span>Based in Germany</span>
+        </div>
+      </div>
+
+      <!-- Replace the src value with the public URL of your uploaded .glb file. -->
+      <model-viewer
+        id="hero-model"
+        class="hero-model"
+        src="https://ma-heller.de/wp-content/uploads/2026/10/GTX1660TI.glb"
+        alt="3D model of a GTX 1660 TI"
+        camera-orbit="-30deg 60deg auto"
+        interaction-prompt="none"
+        loading="eager">
+      </model-viewer>
+    </div>
+
+    <!-- SELECTED WORK -->
+    <section class="content" id="work">
+      <div class="shell">
+
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">01 / Projects</div>
+            <h2>Selected work</h2>
+          </div>
+
+          <p class="section-note">
+            A selection of professional engineering work
+            and personal programming projects.
+          </p>
+        </div>
+
+        <div class="cards">
+
+          <article class="project">
+            <div class="number">PROFESSIONAL / 01</div>
+            <h3>DCC Pipeline Integrations</h3>
+            <p>
+              Developing integrations and tools for 3D
+              creation applications, with a focus on
+              automating asset preparation, optimization,
+              and export workflows.
+            </p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">DCC APIs</span>
+              <span class="tag">Blender</span>
+              <span class="tag">3ds Max</span>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="number">PROFESSIONAL / 02</div>
+            <h3>Material Conversion Workflows</h3>
+            <p>
+              Working on workflows that translate materials
+              from digital content creation tools into
+              interoperable formats for downstream
+              3D applications.
+            </p>
+            <div class="tags">
+              <span class="tag">MaterialX</span>
+              <span class="tag">glTF</span>
+              <span class="tag">3D Pipelines</span>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="number">PROFESSIONAL / 03</div>
+            <h3>Automated Regression Testing</h3>
+            <p>
+              Led the development of a test workflow
+              using reference 3D assets and comparison
+              metrics to identify changes in software
+              behavior and support quality assurance.
+            </p>
+            <div class="tags">
+              <span class="tag">Test Automation</span>
+              <span class="tag">Quality Assurance</span>
+              <span class="tag">Pipeline Tools</span>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="number">PROFESSIONAL / 04</div>
+            <h3>Modo Data Pipeline</h3>
+            <p>
+              Led development work on a Modo-based 3D data
+              pipeline, coordinating technical requirements
+              and communication across project stakeholders.
+            </p>
+            <div class="tags">
+              <span class="tag">Modo</span>
+              <span class="tag">DCC Integration</span>
+              <span class="tag">Technical Leadership</span>
+            </div>
+          </article>
+
+          <article class="project personal">
+            <div class="number">PERSONAL / 05</div>
+            <h3>C++ Software Renderer</h3>
+            <p>
+              An ongoing learning project exploring
+              low-level image rendering, pixel buffers,
+              and C++ memory management using Walnut
+              and GLM.
+            </p>
+            <div class="tags">
+              <span class="tag">C++</span>
+              <span class="tag">Walnut</span>
+              <span class="tag">GLM</span>
+              <span class="tag">In Progress</span>
+            </div>
+          </article>
+
+          <article class="project personal">
+            <div class="number">EARLIER WORK / 06</div>
+            <h3>Interactive Unity Projects</h3>
+            <p>
+              Earlier game and simulation projects include
+              a first-person movement prototype and a
+              browser-based behavioral avoidance test
+              developed for a bachelor's thesis.
+            </p>
+            <div class="tags">
+              <span class="tag">Unity</span>
+              <span class="tag">Interactive 3D</span>
+              <span class="tag">Game Development</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNICAL SKILLS -->
+    <section class="content" id="expertise">
+      <div class="shell">
+
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">02 / Capabilities</div>
+            <h2>Technical expertise</h2>
+          </div>
+        </div>
+
+        <div class="skills">
+          <div class="skill">
+            <h3>Software Development</h3>
+            <p>
+              Python, C++, automation, maintainable tools,
+              and software testing.
+            </p>
+          </div>
+
+          <div class="skill">
+            <h3>3D Pipelines</h3>
+            <p>
+              Asset preparation, material conversion,
+              optimization, and export workflows.
+            </p>
+          </div>
+
+          <div class="skill">
+            <h3>DCC Integrations</h3>
+            <p>
+              Working with APIs and workflows in Blender,
+              3ds Max, Modo, and other 3D tools.
+            </p>
+          </div>
+
+          <div class="skill">
+            <h3>Graphics & Real-Time</h3>
+            <p>
+              3D data processing, real-time asset
+              requirements, and independent
+              rendering experiments.
+            </p>
+          </div>
+
+          <div class="skill">
+            <h3>Quality Engineering</h3>
+            <p>
+              Regression testing, reference assets,
+              and automated validation workflows.
+            </p>
+          </div>
+
+          <div class="skill">
+            <h3>Collaboration</h3>
+            <p>
+              Technical planning, project leadership,
+              customer communication, and cross-team
+              coordination.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="content" id="experience">
+      <div class="shell">
+
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">03 / Background</div>
+            <h2>Experience</h2>
+          </div>
+        </div>
+
+        <div class="experience">
+          <div class="period">2022 — PRESENT</div>
+
+          <div>
+            <h3>Senior Graphics Engineer</h3>
+            <p class="place">
+              Darmstadt Graphics Group (DGG)
+            </p>
+
+            <ul>
+              <li>
+                Develop and maintain 3D pipeline
+                applications and DCC integrations.
+              </li>
+              <li>
+                Build automated workflows for processing
+                and preparing 3D assets for real-time use.
+              </li>
+              <li>
+                Contribute to material conversion and
+                interoperability workflows.
+              </li>
+              <li>
+                Lead development efforts for testing
+                systems and selected pipeline projects.
+              </li>
+              <li>
+                Coordinate technical requirements with
+                developers, other departments, and customers.
+              </li>
+            </ul>
+
+            <div class="education">
+              <div class="eyebrow">Education</div>
+              <h4>
+                Computer Science ·
+                Philipps University of Marburg
+              </h4>
+              <p>
+                Academic background in computer science,
+                including a Unity-based interactive
+                simulation developed as part of
+                a bachelor's thesis.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="shell">
+
+        <div class="eyebrow">04 / Let's Connect</div>
+
+        <h2>Let's build something useful</h2>
+
+        <p>
+          Interested in graphics software, pipeline
+          engineering, or developer tools?
+
+          I'm happy to discuss technical challenges
+          and new opportunities.
+        </p>
+
+        <div class="actions">
+          <a class="button primary"
+             href="https://www.linkedin.com/in/martin-heller-b5843a230/">
+            Connect on LinkedIn ↗
+          </a>
+
+          <!-- Replace with your actual email address -->
+          <a class="button"
+             href="mailto:ma_heller+homepage@web.de">
+            Send an email ↗
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <span>© 2026 Martin Heller</span>
+      <span>
+        Graphics Programming · Pipeline Engineering
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const model = document.getElementById('hero-model');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let animationFrame = null;
+
+      function updateModelRotation() {
+        animationFrame = null;
+
+        if (reducedMotion.matches) {
+          model.setAttribute('camera-orbit', '-30deg 60deg auto');
+          return;
+        }
+
+        // Turn by 24 degrees over the first viewport of page scrolling.
+        const scrollProgress = Math.min(Math.max(window.scrollY / window.innerHeight, 0), 1);
+        const angle = -30 + scrollProgress * 24;
+        model.setAttribute('camera-orbit', `${angle.toFixed(2)}deg 60deg auto`);
+      }
+
+      function scheduleRotation() {
+        if (animationFrame === null) {
+          animationFrame = window.requestAnimationFrame(updateModelRotation);
+        }
+      }
+
+      window.addEventListener('scroll', scheduleRotation, { passive: true });
+      window.addEventListener('resize', scheduleRotation);
+      reducedMotion.addEventListener('change', scheduleRotation);
+      scheduleRotation();
+    })();
+  </script>
+
+</body>
+</html>
