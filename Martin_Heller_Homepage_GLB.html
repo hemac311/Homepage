@@ -227,6 +227,14 @@ section.content {
   z-index: 1;
 }
 
+/* Makes the whole card clickable */
+
+.project > .card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
 .project .number,
 .project p,
 .project .tags {
@@ -273,6 +281,15 @@ section.content {
   padding: 5px 8px;
   border-radius: 4px;
 }
+
+/* Programming language tags */
+
+.tag.lang-python { color: #6fb6f0; border-color: #6fb6f077; }
+.tag.lang-cpp { color: #b99cff; border-color: #b99cff77; }
+.tag.lang-csharp { color: #7be0a0; border-color: #7be0a077; }
+.tag.lang-js { color: #f2d27a; border-color: #f2d27a77; }
+.tag.lang-html { color: #f29a7e; border-color: #f29a7e77; }
+.tag.lang-glsl { color: #f08fc0; border-color: #f08fc077; }
 
 .project.personal { background: #101820; }
 .project.personal .number { color: var(--accent2); }
@@ -553,65 +570,68 @@ footer {
 
         <div class="cards">
 
-          <article class="project" style="--bg-image: url('images/test.PNG')">
+          <article class="project" style="--bg-image: url('images/Blender_plugin_2.webp')">
+            <a class="card-link" href="https://rapidpipeline.com/en/blender/"
+               target="_blank" rel="noopener"
+               aria-label="DCC Pipeline Integrations: RapidPipeline for Blender"></a>
             <div class="number">PROFESSIONAL / 01</div>
             <h3>DCC Pipeline Integrations</h3>
             <p>
               Developing integrations and tools for 3D creation applications, with a focus on automating asset preparation, optimization, and export workflows.
             </p>
             <div class="tags">
-              <span class="tag">Python</span>
+              <span class="tag lang-python">Python</span>
               <span class="tag">Blender</span>
               <span class="tag">QT / PySide</span>
               <span class="tag">3ds Max</span>
             </div>
           </article>
 
-          <article class="project">
+          <article class="project" style="--bg-image: url('images/DCCI.jpg')">
             <div class="number">PROFESSIONAL / 02</div>
             <h3>Material Conversion Workflows</h3>
             <p>
               Workflows that translate V-Ray materials from 3ds Max into interoperable formats for downstream 3D applications.
             </p>
             <div class="tags">
-              <span class="tag">Python</span>
+              <span class="tag lang-python">Python</span>
               <span class="tag">3ds Max</span>
             </div>
           </article>
 
-          <article class="project">
+          <article class="project" style="--bg-image: url('images/QC-tool.png')">
             <div class="number">PROFESSIONAL / 03</div>
             <h3>Automated Regression Testing</h3>
             <p>
               Led the development of a test workflow using reference 3D assets and comparison metrics to identify changes in software behaviour and support quality assurance.
             </p>
             <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">JavaScript</span>
-              <span class="tag">HTML</span>
+              <span class="tag lang-python">Python</span>
+              <span class="tag lang-js">JavaScript</span>
+              <span class="tag lang-html">HTML</span>
             </div>
           </article>
 
-          <article class="project">
+          <article class="project" style="--bg-image: url('images/Modo_pipeline.webp')">
             <div class="number">PROFESSIONAL / 04</div>
             <h3>Modo Data Pipeline</h3>
             <p>
               Development work on a Modo-based 3D data pipeline, coordinating technical requirements and communication across project stakeholders.
             </p>
             <div class="tags">
-              <span class="tag">Python</span>
+              <span class="tag lang-python">Python</span>
               <span class="tag">Modo API</span>
             </div>
           </article>
 
-          <article class="project personal">
+          <article class="project personal" style="--bg-image: url('images/File_traveler.png')">
             <div class="number">PERSONAL / 05</div>
             <h3>File Traveler</h3>
             <p>
               An interactive game where the character traverses the user's PC files and directories in a museum-like atmosphere.
             </p>
             <div class="tags">
-              <span class="tag">C++</span>
+              <span class="tag lang-cpp">C++</span>
               <span class="tag">Unreal Engine 5</span>
               <span class="tag">WIP</span>
             </div>
@@ -624,62 +644,62 @@ footer {
               A ray tracing project based on the book "Ray Tracing in One Weekend" and the video series "Ray Tracing" by "The Cherno".
             </p>
             <div class="tags">
-              <span class="tag">C++</span>
+              <span class="tag lang-cpp">C++</span>
               <span class="tag">Vulkan</span>
               <span class="tag">WIP</span>
             </div>
           </article>
 
-          <article class="project personal">
+          <article class="project personal" style="--bg-image: url('images/Drone.jpeg')">
             <div class="number">PERSONAL / 07</div>
             <h3>Drone Pathfinding</h3>
             <p>
               Developed a drone pathfinding simulation using a 3D recreation of real-world flight conditions and custom shaders to replicate depth-camera limitations, enabling safe preliminary testing before deployment on a physical drone.
             </p>
             <div class="tags">
+              <span class="tag lang-csharp">C#</span>
               <span class="tag">Unity</span>
-              <span class="tag">C#</span>
-              <span class="tag">GLSL</span>
+              <span class="tag lang-glsl">GLSL</span>
               <span class="tag">Blender</span>
             </div>
           </article>
 
-          <article class="project personal">
+          <article class="project personal" style="--bg-image: url('images/Bachelor.PNG')">
             <div class="number">PERSONAL / 08</div>
             <h3>Spider Phobia</h3>
             <p>
               My Bachelor thesis titled "Web based Behavioural Avoidance Test for specific phobia", utilizing Unity to create a controlled testing environment for exposure therapy of arachnophobia.
             </p>
             <div class="tags">
+              <span class="tag lang-csharp">C#</span>
               <span class="tag">Unity</span>
-              <span class="tag">C#</span>
               <span class="tag">Blender</span>
               <span class="tag">WebGL</span>
             </div>
           </article>
 
-          <article class="project personal">
+          <article class="project personal" style="--bg-image: url('images/Project Mirror.jpeg')">
             <div class="number">PERSONAL / 09</div>
             <h3>Project Mirror</h3>
             <p>
               A 3rd person free-running game based on the Mirror's Edge series, built in Unity as a week-long group project.
             </p>
             <div class="tags">
+              <span class="tag lang-csharp">C#</span>
               <span class="tag">Unity</span>
-              <span class="tag">C#</span>
               <span class="tag">SketchUp</span>
             </div>
           </article>
 
-          <article class="project personal">
+          <article class="project personal" style="--bg-image: url('images/A_knights_crossing.jpeg')">
             <div class="number">PERSONAL / 10</div>
             <h3>A Knight's Crossing</h3>
             <p>
               A chess-like mobile strategy game that can be played locally with a friend or against a custom-built AI based on the minimax algorithm with alpha-beta pruning.
             </p>
             <div class="tags">
+              <span class="tag lang-csharp">C#</span>
               <span class="tag">Unity</span>
-              <span class="tag">C#</span>
               <span class="tag">Blender</span>
             </div>
           </article>
