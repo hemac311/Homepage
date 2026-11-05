@@ -205,9 +205,11 @@ section.content {
   transition: border-color .2s, transform .2s;
 }
 
-.project:hover {
-  border-color: #557b83;
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .project:hover {
+    border-color: #557b83;
+    transform: translateY(-3px);
+  }
 }
 
 /* Hover image: set per card with style="--bg-image: url('images/xyz.jpg')" */
@@ -241,14 +243,25 @@ section.content {
   transition: opacity .3s;
 }
 
-.project[style*="--bg-image"]:hover::before {
-  opacity: 1;
+/* With an image, only the title stays visible on hover */
+@media (hover: hover) {
+  .project[style*="--bg-image"]:hover::before {
+    opacity: 1;
+  }
+
+  .project[style*="--bg-image"]:hover .number,
+  .project[style*="--bg-image"]:hover p,
+  .project[style*="--bg-image"]:hover .tags {
+    opacity: 0;
+  }
 }
 
-/* With an image, only the title stays visible on hover */
-.project[style*="--bg-image"]:hover .number,
-.project[style*="--bg-image"]:hover p,
-.project[style*="--bg-image"]:hover .tags {
+/* Touch devices: script toggles .show-image (tap, or after 2s in view) */
+.project.show-image::before { opacity: 1; }
+
+.project.show-image .number,
+.project.show-image p,
+.project.show-image .tags {
   opacity: 0;
 }
 
@@ -280,6 +293,53 @@ section.content {
   border: 1px solid #37505b;
   padding: 5px 8px;
   border-radius: 4px;
+}
+
+/* Flip animation (touch devices only) */
+
+@keyframes card-flip-out {
+  from { transform: perspective(900px) rotateY(0); }
+  to { transform: perspective(900px) rotateY(90deg); }
+}
+
+@keyframes card-flip-in {
+  from { transform: perspective(900px) rotateY(-90deg); }
+  to { transform: perspective(900px) rotateY(0); }
+}
+
+.card-open { display: none; }
+
+@media (hover: none) {
+  .project[style*="--bg-image"] {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .project.flip-out { animation: card-flip-out .25s ease-in forwards; }
+  .project.flip-in { animation: card-flip-in .25s ease-out; }
+
+  .project.flip-in *,
+  .project.flip-in::before { transition: none; }
+
+  /* Tap flips the card, so the link gets its own small button */
+  .project > .card-link { pointer-events: none; }
+
+  .project > .card-open {
+    display: flex;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #37505b;
+    border-radius: 50%;
+    background: #0a1016cc;
+    color: var(--accent);
+    font-size: .9rem;
+  }
 }
 
 /* Programming language tags */
@@ -436,11 +496,16 @@ footer {
 /* RESPONSIVE */
 
 @media (max-width: 850px) {
+  /* Hero keeps the 3D model next to the text */
   .hero {
-    grid-template-columns: 1fr;
-    gap: 38px;
-    padding-top: 76px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 24px;
+    padding: 64px 0;
   }
+
+  .hero h1 { font-size: clamp(1.7rem, 5.6vw, 3.2rem); }
+  .lead { font-size: 1rem; }
+  .hero-model { height: 320px; }
 
   .skills { grid-template-columns: repeat(2, 1fr); }
   .experience { grid-template-columns: 1fr; gap: 12px; }
@@ -460,7 +525,13 @@ footer {
 
   nav { gap: 18px; flex-wrap: wrap; }
 
-  .hero { padding: 64px 0; }
+  .hero { padding: 40px 0; gap: 12px; }
+  .hero h1 { margin: 14px 0 16px; }
+  .lead { font-size: .85rem; line-height: 1.6; }
+  .actions { margin-top: 20px; gap: 8px; }
+  .hero .button { padding: 10px 14px; font-size: .8rem; }
+  .hero-meta { margin-top: 20px; font-size: .68rem; }
+  .hero-model { height: 240px; }
   .cards, .skills { grid-template-columns: 1fr; }
 
   .section-head { display: block; }
@@ -574,6 +645,9 @@ footer {
             <a class="card-link" href="https://rapidpipeline.com/en/blender/"
                target="_blank" rel="noopener"
                aria-label="DCC Pipeline Integrations: RapidPipeline for Blender"></a>
+            <a class="card-open" href="https://rapidpipeline.com/en/blender/"
+               target="_blank" rel="noopener"
+               aria-label="Open RapidPipeline for Blender">↗</a>
             <div class="number">PROFESSIONAL / 01</div>
             <h3>DCC Pipeline Integrations</h3>
             <p>
@@ -704,7 +778,7 @@ footer {
             </div>
           </article>
 
-          <article class="project personal">
+          <article class="project personal" style="--bg-image: url('images/somatic_installation.jpeg')">
             <div class="number">PERSONAL / 11</div>
             <h3>AI-Driven Interactive Somatic Installation</h3>
             <p>
@@ -912,6 +986,62 @@ footer {
   </footer>
 
   <script>
+    // Touch devices have no hover: tapping a card flips it between
+    // description and image. The image also flips in by itself once the
+    // card has been in the middle of the screen for 2 seconds.
+    (() => {
+      if (!window.matchMedia('(hover: none)').matches) return;
+
+      const DELAY_MS = 2000;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const timers = new Map();
+
+      const isFlipping = card =>
+        card.classList.contains('flip-out') || card.classList.contains('flip-in');
+
+      // Swap content at the halfway point of the flip, when the card is edge-on.
+      function setImage(card, show, animate) {
+        if (card.classList.contains('show-image') === show) return;
+
+        if (!animate || reducedMotion.matches || isFlipping(card)) {
+          card.classList.toggle('show-image', show);
+          return;
+        }
+
+        card.classList.add('flip-out');
+        card.addEventListener('animationend', () => {
+          card.classList.toggle('show-image', show);
+          card.classList.replace('flip-out', 'flip-in');
+          card.addEventListener('animationend', () => card.classList.remove('flip-in'), { once: true });
+        }, { once: true });
+      }
+
+      const cards = document.querySelectorAll('.project[style*="--bg-image"]');
+
+      cards.forEach(card => {
+        card.addEventListener('click', event => {
+          if (event.target.closest('.card-open') || isFlipping(card)) return;
+          clearTimeout(timers.get(card));
+          setImage(card, !card.classList.contains('show-image'), true);
+        });
+      });
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const card = entry.target;
+          clearTimeout(timers.get(card));
+
+          if (entry.isIntersecting) {
+            timers.set(card, setTimeout(() => setImage(card, true, true), DELAY_MS));
+          } else {
+            setImage(card, false, false);
+          }
+        });
+      }, { rootMargin: '-35% 0px -35% 0px' });
+
+      cards.forEach(card => observer.observe(card));
+    })();
+
     (() => {
       const model = document.getElementById('hero-model');
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
