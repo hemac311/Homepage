@@ -332,8 +332,11 @@ section.content {
   .project.show-image h3 {
     order: -1;
     margin: -6px 0 34px;
-    padding-right: 36px;
   }
+
+  /* Keep the title clear of the link button in both states, so it wraps
+     identically and the card doesn't change height when it flips. */
+  .card-open ~ h3 { padding-right: 36px; }
 
   /* Tap flips the card, so the link gets its own small button */
   .project > .card-link { pointer-events: none; }
